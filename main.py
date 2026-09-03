@@ -4,50 +4,76 @@ root = tk.Tk()
 root.title("Super title")
 root.geometry("600x400")
 
-lbl = tk.Label(
+
+def pokaz_profil():
+    imie = entry_imie.get()
+    klasa = entry_klasa.get()
+    jezyk = entry_jezyk.get()
+    gotowy = gotowy_var.get()
+
+    if imie == "":
+        profil.config(text="Wpisz swoje imię...")
+    else:
+        profil.config(
+            text=f"Imię: {imie}\n"
+                 f"Klasa: {klasa}\n"
+                 f"Ulubiony język programowania: {jezyk}\n"
+                 f"Znaki w twoim imieniu: {len(imie)}\n"
+                 f"Jestem gotowy do testu: {'Tak' if gotowy else 'Nie'}"
+        )
+
+
+tk.Label(
     root,
-    text="Moja pierwsza aplikacja",
-    fg="white",
-    font=("Arial", 32)
-).pack(pady=25)
-lbl2 = tk.Label(
-    root,
-    text="Programowanie aplikacji desktopowych",
-    fg="cyan",
-    font=("Arial", 16)
-).pack(pady=25)
-
-
-
-licznik = 0
-
-def click():
-    global licznik
-    licznik += 1
-    lbl_counter.config(text=licznik)
-
-def reset():
-    global licznik
-    licznik = 0
-    lbl_counter.config(text=licznik)
-
-btn1 = tk.Button(
-    root,
-    text="Kliknij mnie",
-    width=25,
-    command=click
+    text="Imię:",
+    font=("Arial", 16),
+    fg="white"
 ).pack()
-lbl_counter = tk.Label(
+
+entry_imie = tk.Entry(root, bg="white", fg="black")
+entry_imie.pack()
+
+tk.Label(
     root,
-    text=licznik,
+    text="Klasa:",
+    font=("Arial", 16),
+    fg="white"
+).pack()
+
+entry_klasa = tk.Entry(root, bg="white", fg="black")
+entry_klasa.pack()
+
+tk.Label(
+    root,
+    text="Ulubiony język programowania:",
+    font=("Arial", 16),
+    fg="white"
+).pack()
+
+entry_jezyk = tk.Entry(root, bg="white", fg="black")
+entry_jezyk.pack()
+
+gotowy_var = tk.BooleanVar()
+
+tk.Checkbutton(
+    root,
+    text="Jestem gotowy do testu",
+    variable=gotowy_var
+).pack()
+
+tk.Button(
+    root,
+    text="Pokaż profil",
+    command=pokaz_profil,
+    width= 20
+).pack(pady=20)
+
+profil = tk.Label(
+    root,
+    text="",
+    font=("Arial", 16),
     fg="white"
 )
-lbl_reset_btn = tk.Button(
-    root,
-    text="Wyzeruj licznik",
-    command=reset
-).pack()
-
-lbl_counter.pack(pady=25)
+profil.pack()
 
 root.mainloop()
