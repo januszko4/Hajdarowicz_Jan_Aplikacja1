@@ -2,7 +2,7 @@ import tkinter as tk
 
 root = tk.Tk()
 root.title("Super title")
-root.geometry("600x400")
+root.geometry("600x500")
 
 
 def pokaz_profil():
@@ -11,8 +11,8 @@ def pokaz_profil():
     jezyk = entry_jezyk.get()
     gotowy = gotowy_var.get()
 
-    if imie == "":
-        profil.config(text="Wpisz swoje imię...")
+    if imie == "" or jezyk == "" or klasa == "" or not gotowy:
+        profil.config(text="Wypełnij wszystkie pola") # wczesniej tylko sprawdzanie imienia i komunikat o tym
     else:
         profil.config(
             text=f"Imię: {imie}\n"
@@ -23,35 +23,61 @@ def pokaz_profil():
         )
 
 
+def wyczysc():
+    entry_imie.delete(0, tk.END)
+    entry_klasa.delete(0, tk.END)
+    entry_jezyk.delete(0, tk.END)
+    gotowy_var.set(False)
+    profil.config(text="")
+
+
 tk.Label(
     root,
     text="Imię:",
     font=("Arial", 16),
     fg="white"
-).pack()
+).pack(pady=5)
 
-entry_imie = tk.Entry(root, bg="white", fg="black")
-entry_imie.pack()
+entry_imie = tk.Entry(
+    root,
+    bg="white",
+    fg="black",
+    width=30
+)
+entry_imie.pack(pady=5)
+
 
 tk.Label(
     root,
     text="Klasa:",
     font=("Arial", 16),
     fg="white"
-).pack()
+).pack(pady=5)
 
-entry_klasa = tk.Entry(root, bg="white", fg="black")
-entry_klasa.pack()
+entry_klasa = tk.Entry(
+    root,
+    bg="white",
+    fg="black",
+    width=30
+)
+entry_klasa.pack(pady=5)
+
 
 tk.Label(
     root,
     text="Ulubiony język programowania:",
     font=("Arial", 16),
     fg="white"
-).pack()
+).pack(pady=5)
 
-entry_jezyk = tk.Entry(root, bg="white", fg="black")
-entry_jezyk.pack()
+entry_jezyk = tk.Entry(
+    root,
+    bg="white",
+    fg="black",
+    width=30
+)
+entry_jezyk.pack(pady=5)
+
 
 gotowy_var = tk.BooleanVar()
 
@@ -59,14 +85,24 @@ tk.Checkbutton(
     root,
     text="Jestem gotowy do testu",
     variable=gotowy_var
-).pack()
+).pack(pady=5)
+
 
 tk.Button(
     root,
     text="Pokaż profil",
     command=pokaz_profil,
-    width= 20
-).pack(pady=20)
+    width=20
+).pack(pady=5)
+
+
+tk.Button(
+    root,
+    text="Wyczyść pola",
+    command=wyczysc,
+    width=20
+).pack(pady=5)
+
 
 profil = tk.Label(
     root,
@@ -74,6 +110,7 @@ profil = tk.Label(
     font=("Arial", 16),
     fg="white"
 )
-profil.pack()
+profil.pack(pady=5)
+
 
 root.mainloop()
