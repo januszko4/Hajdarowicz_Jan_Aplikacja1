@@ -1,116 +1,140 @@
 import tkinter as tk
 
+
 root = tk.Tk()
-root.title("Super title")
-root.geometry("600x500")
+root.title("Kalkulator")
+root.geometry("400x350")
 
 
-def pokaz_profil():
-    imie = entry_imie.get()
-    klasa = entry_klasa.get()
-    jezyk = entry_jezyk.get()
-    gotowy = gotowy_var.get()
-
-    if imie == "" or jezyk == "" or klasa == "" or not gotowy:
-        profil.config(text="Wypełnij wszystkie pola") # wczesniej tylko sprawdzanie imienia i komunikat o tym
-    else:
-        profil.config(
-            text=f"Imię: {imie}\n"
-                 f"Klasa: {klasa}\n"
-                 f"Ulubiony język programowania: {jezyk}\n"
-                 f"Znaki w twoim imieniu: {len(imie)}\n"
-                 f"Jestem gotowy do testu: {'Tak' if gotowy else 'Nie'}"
-        )
+def pobierz_liczby():
+    try:
+        liczba1 = float(entry_liczba1.get())
+        liczba2 = float(entry_liczba2.get())
+        return liczba1, liczba2
+    except ValueError:
+        lbl_wynik.config(text="Wpisz poprawne liczby.")
+        return None
 
 
-def wyczysc():
-    entry_imie.delete(0, tk.END)
-    entry_klasa.delete(0, tk.END)
-    entry_jezyk.delete(0, tk.END)
-    gotowy_var.set(False)
-    profil.config(text="")
+def dodaj():
+    liczby = pobierz_liczby()
+
+    if liczby is not None:
+        liczba1, liczba2 = liczby
+        lbl_wynik.config(text=f"Wynik: {liczba1 + liczba2}")
 
 
-tk.Label(
-    root,
-    text="Imię:",
-    font=("Arial", 16),
-    fg="white"
-).pack(pady=5)
+def odejmij():
+    liczby = pobierz_liczby()
 
-entry_imie = tk.Entry(
-    root,
-    bg="white",
-    fg="black",
-    width=30
-)
-entry_imie.pack(pady=5)
+    if liczby is not None:
+        liczba1, liczba2 = liczby
+        lbl_wynik.config(text=f"Wynik: {liczba1 - liczba2}")
 
 
-tk.Label(
-    root,
-    text="Klasa:",
-    font=("Arial", 16),
-    fg="white"
-).pack(pady=5)
+def pomnoz():
+    liczby = pobierz_liczby()
 
-entry_klasa = tk.Entry(
-    root,
-    bg="white",
-    fg="black",
-    width=30
-)
-entry_klasa.pack(pady=5)
+    if liczby is not None:
+        liczba1, liczba2 = liczby
+        lbl_wynik.config(text=f"Wynik: {liczba1 * liczba2}")
+
+
+def podziel():
+    liczby = pobierz_liczby()
+
+    if liczby is not None:
+        liczba1, liczba2 = liczby
+
+        if liczba2 == 0:
+            lbl_wynik.config(text="Nie można dzielić przez zero.")
+        else:
+            lbl_wynik.config(text=f"Wynik: {liczba1 / liczba2}")
+
+
+def reset():
+    entry_liczba1.delete(0, tk.END)
+    entry_liczba2.delete(0, tk.END)
+    lbl_wynik.config(text="Wynik")
 
 
 tk.Label(
     root,
-    text="Ulubiony język programowania:",
-    font=("Arial", 16),
-    fg="white"
-).pack(pady=5)
+    text="Kalkulator",
+    font=("Arial", 24)
+).pack(pady=15)
 
-entry_jezyk = tk.Entry(
+
+tk.Label(
     root,
-    bg="white",
-    fg="black",
-    width=30
+    text="Liczba 1"
+).pack()
+
+entry_liczba1 = tk.Entry(root)
+entry_liczba1.pack(pady=5)
+
+
+tk.Label(
+    root,
+    text="Liczba 2"
+).pack()
+
+entry_liczba2 = tk.Entry(root)
+entry_liczba2.pack(pady=5)
+
+
+frame = tk.Frame(root)
+frame.pack(pady=15)
+
+tk.Button(
+    frame,
+    text="+",
+    width=5,
+    command=dodaj
+).pack(side="left", padx=5)
+
+tk.Button(
+    frame,
+    text="-",
+    width=5,
+    command=odejmij
+).pack(side="left", padx=5)
+
+tk.Button(
+    frame,
+    text="*",
+    width=5,
+    command=pomnoz
+).pack(side="left", padx=5)
+
+tk.Button(
+    frame,
+    text="/",
+    width=5,
+    command=podziel
+).pack(side="left", padx=5)
+
+
+lbl_wynik = tk.Label(
+    root,
+    text="Wynik",
+    font=("Arial", 16)
 )
-entry_jezyk.pack(pady=5)
-
-
-gotowy_var = tk.BooleanVar()
-
-tk.Checkbutton(
-    root,
-    text="Jestem gotowy do testu",
-    variable=gotowy_var
-).pack(pady=5)
+lbl_wynik.pack(pady=10)
 
 
 tk.Button(
     root,
-    text="Pokaż profil",
-    command=pokaz_profil,
-    width=20
-).pack(pady=5)
+    text="Reset",
+    command=reset
+).pack()
 
 
 tk.Button(
     root,
-    text="Wyczyść pola",
-    command=wyczysc,
-    width=20
+    text="Zamknij program",
+    command=root.destroy
 ).pack(pady=5)
-
-
-profil = tk.Label(
-    root,
-    text="",
-    font=("Arial", 16),
-    fg="white"
-)
-profil.pack(pady=5)
 
 
 root.mainloop()
